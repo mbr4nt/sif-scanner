@@ -56,3 +56,17 @@ function done(err, results) {
   console.dir(item["3DLA"]);
 }
 ```
+
+##finding the cad file name
+```node
+var sifScanner = require("sif-scanner");
+sifScanner("./sif/**.in", /^PN\=/, filter, done);
+
+function filter(item) {
+  return item.PN == "A19-HWB";
+}
+
+function done(err, results) {
+  console.log(results[0]["3D"]);
+}
+```
