@@ -1,7 +1,7 @@
 {
-  "name": "cmsls",
+  "name": "sif-scanner",
   "version": "1.0.0",
-  "description": "Scans sif files to find cad layers for a sif string",
+  "description": "Scans sif files to match a line header.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
