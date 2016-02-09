@@ -70,3 +70,20 @@ function done(err, results) {
   console.log(results[0]["3D"]);
 }
 ```
+
+##listing all base models
+```node
+//you'll have to install underscore yourself (it's not required by this module)
+var _ = require("underscore");
+
+var sifScanner = require("sif-scanner");
+sifScanner("./sif/**.top", /^PN\=/, filter, done);
+
+function filter(item) {
+  return true;
+}
+
+function done(err, items) {
+  console.log(_.map(items, function(item) { return item.PN; }));
+}
+```
