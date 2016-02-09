@@ -1,0 +1,15 @@
+{
+  "name": "cmsls",
+  "version": "1.0.0",
+  "description": "Scans sif files to find cad layers for a sif string",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "glob": "^6.0.4",
+    "interpolate": "^0.1.0"
+  }
+}
