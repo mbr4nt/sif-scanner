@@ -1,17 +1,30 @@
 {
   "name": "sif-scanner",
   "version": "1.0.0",
-  "description": "Scans sif files to match a line header.",
+  "description": "Scans sif files to match a line header, parses content between line headers as an object, applies filter on objects to match a predicate.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "mateus.brant@gmail.com",
   "license": "ISC",
   "dependencies": {
     "async": "^1.5.2",
     "glob": "^6.0.4",
-    "interpolate": "^0.1.0",
-    "underscore": "^1.8.3"
-  }
+    "interpolate": "^0.1.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mbr4nt/sif-scanner.git"
+  },
+  "keywords": [
+    "sif",
+    "furtinure",
+    "catalog"
+  ],
+  "bugs": {
+    "url": "https://github.com/mbr4nt/sif-scanner/issues"
+  },
+  "homepage": "https://github.com/mbr4nt/sif-scanner#readme"
 }
