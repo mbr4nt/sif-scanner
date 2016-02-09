@@ -3,8 +3,8 @@
 npm install sif-scanner
 ```
 
-##fiding default cad layer materials
-```js
+##finding default cad layer materials
+```node
 var sifScanner = require("sif-scanner");
 sifScanner("./sif/**.PLI", /^PN\=/, filter, done);
 
@@ -17,9 +17,9 @@ function done(err, results) {
 }
 ```
 
-##finding the list of options for a model
+##finding the list of option keys for a model
 
-```js
+```node
 var sifScanner = require("sif-scanner");
 sifScanner("./sif/**.key", /^PN\=/, filter, done);
 
@@ -37,5 +37,22 @@ function done(err, results) {
   }
 
   console.dir(optionKeys);
+}
+```
+
+##finding cad layer for an option key
+```node
+var sifScanner = require("sif-scanner");
+sifScanner("./sif/**.MON", /^PO\=/, filter, done);
+
+function filter(item) {
+  return item.PO == "19HWB";
+}
+
+function done(err, results) {
+  var item = results[0];
+
+
+  console.dir(item["3DLA"]);
 }
 ```
