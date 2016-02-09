@@ -1,8 +1,8 @@
 var me = require("./index.js");
-me("fix", /^3DLA\=/, filter, done);
+me("./sif/**.PLI", /^PN\=/, filter, done);
 
 function filter(item) {
-  return item.IM == "P27";
+  return item.PN == "A19-HWS";
 }
 
 function done(err, results) {

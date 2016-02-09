@@ -24,8 +24,8 @@ function readLines(input, func, done) {
   });
 }
 
-module.exports = function(fileType, lineCallBack, doneCallback) {
-  ff("fix", function(err, files) {
+module.exports = function(path, lineCallBack, doneCallback) {
+  ff(path, function(err, files) {
     async.map(files, function(file, fileCallback) {
       var input = fs.createReadStream(file);
       readLines(input, lineCallBack, fileCallback);

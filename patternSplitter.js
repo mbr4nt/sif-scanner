@@ -1,10 +1,10 @@
 var rl = require("./readLine.js");
 
 
-module.exports = function(fileType, pattern, eachBlockCallback, doneCallback) {
+module.exports = function(path, pattern, eachBlockCallback, doneCallback) {
   var currentBlock = {};
 
-  rl(fileType, line, done);
+  rl(path, line, done);
 
   function line(l) {
     if(pattern.test(l)) {
