@@ -1,5 +1,6 @@
 var me = require("./index.js");
-me("./sif/**.PLI", /^PN\=/, filter, done);
+
+me("./sif/**.3", /^PO\=/, null, null, done);
 
 function filter(item) {
   return item.PN == "A19-HWS";

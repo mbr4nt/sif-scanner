@@ -1,15 +1,17 @@
 var rl = require("./readLine.js");
+var currentBlock = null;
 
 
-module.exports = function(path, pattern, eachBlockCallback, doneCallback) {
-  var currentBlock = {};
+module.exports = function(path, pattern, groupPattern, eachBlockCallback, doneCallback) {
 
   rl(path, line, done);
 
   function line(l) {
-    if(pattern.test(l)) {
-      if(currentBlock) {
+    if (pattern.test(l)) {
+      if (currentBlock) {
         eachBlockCallback(null, currentBlock);
+        currentBlock = {};
+      } else {
         currentBlock = {};
       }
     }
@@ -19,11 +21,11 @@ module.exports = function(path, pattern, eachBlockCallback, doneCallback) {
   function done() {
     doneCallback();
   }
-}
+};
 
-function addLine (target, line) {
+function addLine(target, line) {
   var match = /^(\w+)\=(.+)/.exec(line);
-  if(match) {
+  if (match) {
     target[match[1]] = match[2];
   }
 }
