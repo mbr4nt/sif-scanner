@@ -3,7 +3,6 @@ var currentBlock = null;
 var currentChildBlock = null;
 
 module.exports = function(path, pattern, groupPattern, eachBlockCallback, doneCallback) {
-
   rl(path, line, done);
 
   function line(l) {
@@ -42,7 +41,7 @@ function addChildBlock(parent, child) {
 }
 
 function addLine(pattern, line) {
-  if (pattern.test(line)) {
+  if (pattern && pattern.test(line)) {
     if (!currentChildBlock) {
       currentChildBlock = {};
     }
