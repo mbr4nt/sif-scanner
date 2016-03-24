@@ -3,20 +3,15 @@ var currentBlock = null;
 var currentChildBlock = null;
 
 module.exports = function(path, pattern, groupPattern, eachBlockCallback, doneCallback) {
-  
+
   rl(path, line, done);
 
   function line(l) {
     if (pattern.test(l)) {
       if (currentBlock) {
-        if(currentChildBlock) {
-          if(!currentBlock.groups) {
-            currentBlock.groups = [];
-          }
-          currentBlock.groups.push(currentChildBlock);
-        }
-        
+        currentBlock = addChildBlock(currentBlock, currentChildBlock);
         eachBlockCallback(null, currentBlock);
+
         currentBlock = {};
         currentChildBlock = null;
       }
@@ -27,37 +22,42 @@ module.exports = function(path, pattern, groupPattern, eachBlockCallback, doneCa
 
     addLine(groupPattern, l);
   }
-  
+
   function done() {
-    if(currentChildBlock) {
-      currentBlock.groups.push(currentChildBlock);
-    }
+    currentBlock = addChildBlock(currentBlock, currentChildBlock);
     eachBlockCallback(null, currentBlock);
     doneCallback();
   }
 };
 
+function addChildBlock(parent, child) {
+  if (child) {
+    if (!parent.groups) {
+      parent.groups = [];
+    }
+    parent.groups.push(child);
+  }
+  
+  return parent;
+}
+
 function addLine(pattern, line) {
-  if(pattern.test(line)) {
-    if(!currentChildBlock) {
+  if (pattern.test(line)) {
+    if (!currentChildBlock) {
       currentChildBlock = {};
-    } else {
-      if(!currentBlock.groups) {
-        currentBlock.groups = [];
-      }
-      
-      var clone = JSON.parse(JSON.stringify(currentChildBlock));
-      
-      currentBlock.groups.push(clone);
+    }
+    else {
+      currentBlock = addChildBlock(currentBlock, currentChildBlock);
       currentChildBlock = {};
     }
   }
-  
+
   var match = /^(\w+)\=(.+)/.exec(line);
   if (match) {
-    if(currentChildBlock) {
+    if (currentChildBlock) {
       currentChildBlock[match[1]] = match[2];
-    } else {
+    }
+    else {
       currentBlock[match[1]] = match[2];
     }
   }
