@@ -1,11 +1,14 @@
 var me = require("./index.js");
+var fs = require("fs");
 
-me("./sif/**.3", /^PO\=/, null, null, done);
+me("./sif/**.3", /^PO\=/, /^ON\=/, null, done);
 
 function filter(item) {
   return item.PN == "A19-HWS";
 }
 
 function done(err, results) {
-  console.log(results);
+  fs.writeFile("./testIndex.json", JSON.stringify(results, null, "\t"), function() {
+    console.log("ALL DONE");
+  });
 }
