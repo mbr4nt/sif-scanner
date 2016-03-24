@@ -1,8 +1,9 @@
 var rl = require("./readLine.js");
-var currentBlock = null;
-var currentChildBlock = null;
 
 module.exports = function(path, pattern, groupPattern, eachBlockCallback, doneCallback) {
+  var currentBlock = null;
+  var currentChildBlock = null;
+
   rl(path, line, done);
 
   function line(l) {
@@ -27,37 +28,37 @@ module.exports = function(path, pattern, groupPattern, eachBlockCallback, doneCa
     eachBlockCallback(null, currentBlock);
     doneCallback();
   }
+
+  function addChildBlock(parent, child) {
+    if (child) {
+      if (!parent.groups) {
+        parent.groups = [];
+      }
+      parent.groups.push(child);
+    }
+
+    return parent;
+  }
+
+  function addLine(pattern, line) {
+    if (pattern && pattern.test(line)) {
+      if (!currentChildBlock) {
+        currentChildBlock = {};
+      }
+      else {
+        currentBlock = addChildBlock(currentBlock, currentChildBlock);
+        currentChildBlock = {};
+      }
+    }
+
+    var match = /^(\w+)\=(.+)/.exec(line);
+    if (match) {
+      if (currentChildBlock) {
+        currentChildBlock[match[1]] = match[2];
+      }
+      else {
+        currentBlock[match[1]] = match[2];
+      }
+    }
+  }
 };
-
-function addChildBlock(parent, child) {
-  if (child) {
-    if (!parent.groups) {
-      parent.groups = [];
-    }
-    parent.groups.push(child);
-  }
-  
-  return parent;
-}
-
-function addLine(pattern, line) {
-  if (pattern && pattern.test(line)) {
-    if (!currentChildBlock) {
-      currentChildBlock = {};
-    }
-    else {
-      currentBlock = addChildBlock(currentBlock, currentChildBlock);
-      currentChildBlock = {};
-    }
-  }
-
-  var match = /^(\w+)\=(.+)/.exec(line);
-  if (match) {
-    if (currentChildBlock) {
-      currentChildBlock[match[1]] = match[2];
-    }
-    else {
-      currentBlock[match[1]] = match[2];
-    }
-  }
-}
