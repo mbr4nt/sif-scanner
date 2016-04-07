@@ -1,7 +1,7 @@
 var me = require("./index.js");
 var fs = require("fs");
 
-me("./sif/**.3", /^PO\=/, /^ON=/, null, done);
+me("./sif/**.MON", /^PO\=/, [ /^3DLA=/, /^ON=/ ], null, done);
 
 function filter(item) {
   return item.PN == "A19-HWS";
