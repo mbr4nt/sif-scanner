@@ -1,5 +1,5 @@
+var glob = require("glob");
 var fs = require('fs');
-var ff = require("./fileFinder.js");
 var async = require("async");
 
 function readLines(input, func, done) {
@@ -25,10 +25,14 @@ function readLines(input, func, done) {
 }
 
 module.exports = function(path, lineCallBack, doneCallback) {
-  ff(path, function(err, files) {
+  glob(path, function(err, files) {
+    if (err) {
+      return doneCallback(err);
+    }
+
     async.map(files, function(file, fileCallback) {
       var input = fs.createReadStream(file);
       readLines(input, lineCallBack, fileCallback);
     }, doneCallback);
   });
-}
+};

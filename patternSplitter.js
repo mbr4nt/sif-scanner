@@ -1,29 +1,72 @@
 var rl = require("./readLine.js");
 
+module.exports = function(path, pattern, groupPattern, eachBlockCallback, doneCallback) {
+    var currentBlock = null;
+    var currentChildBlock = null;
 
-module.exports = function(path, pattern, eachBlockCallback, doneCallback) {
-  var currentBlock = {};
-
-  rl(path, line, done);
-
-  function line(l) {
-    if(pattern.test(l)) {
-      if(currentBlock) {
-        eachBlockCallback(null, currentBlock);
-        currentBlock = {};
-      }
+    if (groupPattern && !Array.isArray(groupPattern)) {
+        groupPattern = [groupPattern];
     }
-    addLine(currentBlock, l);
-  }
 
-  function done() {
-    doneCallback();
-  }
-}
+    rl(path, line, done);
 
-function addLine (target, line) {
-  var match = /^(\w+)\=(.+)/.exec(line);
-  if(match) {
-    target[match[1]] = match[2];
-  }
-}
+    function line(l) {
+        if (pattern.test(l)) {
+            if (currentBlock) {
+                currentBlock = addChildBlock(currentBlock, currentChildBlock);
+                eachBlockCallback(null, currentBlock);
+
+                currentBlock = {};
+                currentChildBlock = null;
+            }
+            else {
+                currentBlock = {};
+            }
+        }
+
+        addLine(groupPattern, l);
+    }
+
+    function done() {
+        currentBlock = addChildBlock(currentBlock, currentChildBlock);
+        eachBlockCallback(null, currentBlock);
+        doneCallback();
+    }
+
+    function addChildBlock(parent, child) {
+        if (child) {
+            if (!parent.groups) {
+                parent.groups = [];
+            }
+            parent.groups.push(child);
+        }
+
+        return parent;
+    }
+
+    function addLine(patterns, line) {
+        if (patterns) {
+            patterns.forEach(function(pattern) {
+                if (pattern.test(line)) {
+                    if (!currentChildBlock) {
+                        currentChildBlock = {};
+                    }
+                    else {
+                        currentBlock = addChildBlock(currentBlock, currentChildBlock);
+                        currentChildBlock = {};
+                    }
+                }
+            });
+        }
+
+        var match = /^(\w+)\=(.+)/.exec(line);
+        if (match) {
+            if (currentChildBlock) {
+                currentChildBlock[match[1]] = match[2];
+            }
+            else {
+                currentBlock[match[1]] = match[2];
+            }
+        }
+    }
+};
