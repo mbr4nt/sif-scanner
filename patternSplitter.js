@@ -64,7 +64,7 @@ module.exports = function(path, pattern, groupPattern, eachBlockCallback, doneCa
             if (currentChildBlock) {
                 currentChildBlock[match[1]] = match[2];
             }
-            else {
+            else if(currentBlock) {
                 currentBlock[match[1]] = match[2];
             }
         }
