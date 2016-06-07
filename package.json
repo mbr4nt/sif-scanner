@@ -1,6 +1,6 @@
 {
   "name": "sif-scanner",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Scans sif files to match a line header, parses content between line headers as an object, applies filter on objects to match a predicate.",
   "main": "index.js",
   "scripts": {

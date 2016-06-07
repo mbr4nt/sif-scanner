@@ -1,9 +1,16 @@
 var ps = require("./patternSplitter.js");
 
-module.exports = function(path, headerPattern, subGroupPattern, filter, callback) {
+module.exports = function(input, headerPattern, subGroupPattern, filter, callback) {
   var items = [];
+  
+  //backwards compatibility, older version expected a path string instead of an object.
+  if(!input.path && !input.content) {
+    input = {
+      path: input
+    };
+  }
 
-  ps(path, headerPattern, subGroupPattern, function(err, block) {
+  ps(input, headerPattern, subGroupPattern, function(err, block) {
       if (err) {
         return callback(err);
       }

@@ -6,7 +6,7 @@ npm install sif-scanner
 ##finding default cad layer materials
 ```node
 var sifScanner = require("sif-scanner");
-sifScanner("./sif/**.PLI", /^PN\=/, null, filter, done);
+sifScanner({path: "./sif/**.PLI"}, /^PN\=/, null, filter, done);
 
 function filter(item) {
   return item.PN == "A19-HWS";
@@ -21,7 +21,7 @@ function done(err, results) {
 
 ```node
 var sifScanner = require("sif-scanner");
-sifScanner("./sif/**.key", /^PN\=/, null, filter, done);
+sifScanner({path: "./sif/**.key"}, /^PN\=/, null, filter, done);
 
 function filter(item) {
   return item.PN == "A19-HWS";
@@ -43,7 +43,7 @@ function done(err, results) {
 ##finding cad layer for an option key
 ```node
 var sifScanner = require("sif-scanner");
-sifScanner("./sif/**.MON", /^PO\=/, null, filter, done);
+sifScanner({path: "./sif/**.MON"}, /^PO\=/, null, filter, done);
 
 function filter(item) {
   return item.PO == "19HWB";
@@ -60,7 +60,7 @@ function done(err, results) {
 ##finding the cad file name
 ```node
 var sifScanner = require("sif-scanner");
-sifScanner("./sif/**.in", /^PN\=/, null, filter, done);
+sifScanner({path: "./sif/**.in"}, /^PN\=/, null, filter, done);
 
 function filter(item) {
   return item.PN == "A19-HWB";
@@ -77,7 +77,7 @@ function done(err, results) {
 var _ = require("underscore");
 
 var sifScanner = require("sif-scanner");
-sifScanner("./sif/**.top", /^PN\=/, null, filter, done);
+sifScanner({path: "./sif/**.top" }, /^PN\=/, null, filter, done);
 
 function filter(item) {
   return true;

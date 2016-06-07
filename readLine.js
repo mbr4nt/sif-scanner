@@ -2,10 +2,10 @@ var glob = require("glob");
 var fs = require('fs');
 var async = require("async");
 
-function readLines(input, func, done) {
+function readLines(stream, func, done) {
   var remaining = '';
 
-  input.on('data', function(data) {
+  stream.on('data', function(data) {
     remaining += data;
     var index = remaining.indexOf('\n');
     while (index > -1) {
@@ -16,7 +16,7 @@ function readLines(input, func, done) {
     }
   });
 
-  input.on('end', function() {
+  stream.on('end', function() {
     if (remaining.length > 0) {
       func(remaining);
     }
@@ -24,15 +24,24 @@ function readLines(input, func, done) {
   });
 }
 
-module.exports = function(path, lineCallBack, doneCallback) {
-  glob(path, function(err, files) {
-    if (err) {
-      return doneCallback(err);
-    }
-
-    async.map(files, function(file, fileCallback) {
-      var input = fs.createReadStream(file);
-      readLines(input, lineCallBack, fileCallback);
-    }, doneCallback);
-  });
+module.exports = function(input, lineCallBack, doneCallback) {
+  if(input.path) {
+    glob(input.path, function(err, files) {
+      if (err) {
+        return doneCallback(err);
+      }
+  
+      async.map(files, function(file, fileCallback) {
+        var stream = fs.createReadStream(file);
+        readLines(stream, lineCallBack, fileCallback);
+      }, doneCallback);
+    });
+  }
+  else if(input.content) {
+    var lines = input.content.split(/\r?\n/);
+    lines.forEach(function(line) {
+      lineCallBack(line);
+    });
+    doneCallback();
+  }
 };

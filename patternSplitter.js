@@ -1,14 +1,14 @@
 var rl = require("./readLine.js");
 
-module.exports = function(path, pattern, groupPattern, eachBlockCallback, doneCallback) {
+module.exports = function(input, pattern, groupPattern, eachBlockCallback, doneCallback) {
     var currentBlock = null;
     var currentChildBlock = null;
 
     if (groupPattern && !Array.isArray(groupPattern)) {
         groupPattern = [groupPattern];
     }
-
-    rl(path, line, done);
+    rl(input, line, done);
+   
 
     function line(l) {
         if (pattern.test(l)) {
