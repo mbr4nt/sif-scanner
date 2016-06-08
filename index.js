@@ -15,6 +15,10 @@ module.exports = function(input, headerPattern, subGroupPattern, filter, callbac
         return callback(err);
       }
 
+      if(!block) {
+        return;
+      }
+
       if (filter && filter(block)) {
         items.push(block);
       }
