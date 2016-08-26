@@ -62,10 +62,10 @@ module.exports = function(input, pattern, groupPattern, eachBlockCallback, doneC
         var match = /^(\w+)\=(.+)/.exec(line);
         if (match) {
             if (currentChildBlock) {
-                currentChildBlock[match[1]] = match[2];
+                currentChildBlock[match[1].trim()] = match[2].trim();
             }
             else if(currentBlock) {
-                currentBlock[match[1]] = match[2];
+                currentBlock[match[1].trim()] = match[2].trim();
             }
         }
     }
